@@ -58,6 +58,12 @@ app.get("/getinit", async (req, res) => {
       Date: setup.data().Date,
       Car: setup.data().Car,
       Track: setup.data().Track,
+      Tyres: setup.data().Tyres,
+      Brakes: setup.data().Brakes,
+      Suspension: setup.data().Suspension,
+      Aerodynamics: setup.data().Aerodynamics,
+      Electronics: setup.data().Electronics,
+      DriveTrain: setup.data().DriveTrain,
     };
     setups.push(setupObj);
   });
@@ -67,11 +73,71 @@ app.get("/getinit", async (req, res) => {
 
 app.post("/addsetup", async (req, res) => {
   try {
-    var id = req.body.id;
-    var name = req.body.name;
-    var date = req.body.date;
-    var car = req.body.car;
-    var track = req.body.track;
+    var body = req.body;
+
+    var id = body.id;
+    var name = body.name;
+    var date = body.date;
+    var car = body.car;
+    var track = body.track;
+    var aerodynamics = {
+      frontWing: body.aerodynamics.frontWing,
+      rearWing: body.aerodynamics.rearWing,
+    };
+    var brakes = {
+      frontBrakeBias: body.brakes.frontBrakeBias,
+      maxPedalForce: body.brakes.maxPedalForce,
+      rearBrakeBias: body.brakes.rearBrakeBias,
+    };
+    var electronics = {
+      tractionControl: body.electronics.tractionControl,
+      abs: body.electronics.abs,
+    };
+    var tyres = {
+      frontCompound: body.tyres.frontCompound,
+      frontLeftCamber: body.tyres.frontLeftCamber,
+      frontRightCamber: body.tyres.frontRightCamber,
+      rearCompound: body.tyres.rearCompound,
+      rearLeftCamber: body.tyres.rearLeftCamber,
+      rearRightCamber: body.tyres.rearRightCamber,
+    };
+    var suspension = {
+      frontSpringRateRight: body.suspension.frontSpringRateRight,
+      rearSpringRateLeft: body.suspension.rearSpringRateLeft,
+      rearSpringRateRight: body.suspension.rearSpringRateRight,
+      frontSlowBumpLeft: body.suspension.frontSlowBumpLeft,
+      frontSlowBumpRight: body.suspension.frontSlowBumpRight,
+      rearSlowBumpLeft: body.suspension.rearSlowBumpLeft,
+      rearSlowBumpRight: body.suspension.rearSlowBumpRight,
+      frontSlowReboundLeft: body.suspension.frontSlowReboundLeft,
+      frontSlowReboundRight: body.suspension.frontSlowReboundRight,
+      rearSlowReboundLeft: body.suspension.rearSlowReboundLeft,
+      rearSlowReboundRight: body.suspension.rearSlowReboundRight,
+      frontFastBumpLeft: body.suspension.frontFastBumpLeft,
+      frontFastBumpRight: body.suspension.frontFastBumpRight,
+      rearFastBumpLeft: body.suspension.rearFastBumpLeft,
+      rearFastBumpRight: body.suspension.rearFastBumpRight,
+      frontFastReboundLeft: body.suspension.frontFastReboundLeft,
+      frontFastReboundRight: body.suspension.frontFastReboundRight,
+      rearFastReboundLeft: body.suspension.rearFastReboundLeft,
+      rearFastReboundRight: body.suspension.rearFastReboundRight,
+      frontPackersLeft: body.suspension.frontPackersLeft,
+      frontPackersRight: body.suspension.frontPackersRight,
+      rearPackersLeft: body.suspension.rearPackersLeft,
+      rearPackersRight: body.suspension.rearPackersRight,
+      frontRideHeightLeft: body.suspension.frontRideHeightLeft,
+      frontRideHeightRight: body.suspension.frontRideHeightRight,
+      rearRideHeightLeft: body.suspension.rearRideHeightLeft,
+      rearRideHeightRight: body.suspension.rearRideHeightRight,
+      frontAntisway: body.suspension.frontAntisway,
+      rearAntisway: body.suspension.rearAntisway,
+      frontToeIn: body.suspension.frontToeIn,
+      rearToeIn: body.suspension.rearToeIn,
+    };
+
+    var driveTrain = {
+      preload: body.driveTrain.preload,
+    };
 
     db.collection("setups")
       .doc("/" + id + "/")
@@ -80,6 +146,12 @@ app.post("/addsetup", async (req, res) => {
         Date: date,
         Car: car,
         Track: track,
+        Aerodynamics: aerodynamics,
+        Brakes: brakes,
+        Electronics: electronics,
+        Tyres: tyres,
+        Suspension: suspension,
+        DriveTrain: driveTrain,
       });
 
     return res.status(200).send();
